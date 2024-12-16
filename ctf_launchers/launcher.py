@@ -98,7 +98,6 @@ class Launcher(abc.ABC):
         anvil_instances = self.get_anvil_instance()
         print(anvil_instances)
         cmd_args = format_anvil_args(anvil_instances, port=anvil_instance["port"])
-        print(cmd_args)
         p = subprocess.Popen(
             ["anvil"] +
             cmd_args,
