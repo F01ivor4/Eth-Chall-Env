@@ -1,0 +1,10 @@
+version: '3'
+services:
+  chall:
+    build: .
+    ports:
+      - "1337:1337"
+      - "28545:28545"
+    environment:
+      - FLAG=0ops{this_is_a_fake_flag}
+    command: sh /home/ctf/run.sh
