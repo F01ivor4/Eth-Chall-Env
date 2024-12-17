@@ -96,7 +96,6 @@ class Launcher(abc.ABC):
             return 1
         print("creating private blockchain...")
         anvil_instances = self.get_anvil_instance()
-        print(anvil_instances)
         cmd_args = format_anvil_args(anvil_instances, port=anvil_instance["port"])
         p = subprocess.Popen(
             ["anvil"] +
