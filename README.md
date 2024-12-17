@@ -43,12 +43,12 @@ cd eth-chall-env
 
 2. Build Docker image:
 ```bash
-docker-compose build
+docker compose build
 ```
 
 3. Start services:
 ```bash
-docker-compose up
+docker compose up
 ```
 
 ### Usage Guide
@@ -116,15 +116,6 @@ Common issues and solutions:
    - Check if ports 1337 or 28545 are already in use
    - Modify port mappings in docker-compose.yml
 
-2. Deployment failures:
-   - Verify Foundry installation
-   - Check contract compilation errors
-   - Ensure sufficient gas for deployment
-
-3. Connection issues:
-   - Confirm Docker container is running
-   - Verify network configurations
-   - Check firewall settings
 
 ## Acknowledgements
 
@@ -132,4 +123,4 @@ This project is based on the excellent work done by the Paradigm team in their [
 
 ## License
 
-This project follows the same licensing as the original paradigm-ctf-infrastructure.
+This project is licensed under the MIT License.
