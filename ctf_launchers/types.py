@@ -43,7 +43,7 @@ class LaunchAnvilInstanceArgs(TypedDict):
     block_time: NotRequired[Optional[int]]
 
 
-def format_anvil_args(args: LaunchAnvilInstanceArgs, port: int = 18545) -> List[str]:
+def format_anvil_args(args: LaunchAnvilInstanceArgs, port: int | str = 18545) -> List[str]:
     cmd_args = []
     cmd_args += ["--host", "0.0.0.0"]
     cmd_args += ["--port", str(port)]
