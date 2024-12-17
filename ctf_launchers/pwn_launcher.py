@@ -25,9 +25,10 @@ class PwnChallengeLauncher(Launcher):
         user_data = self.get_user_data()
 
         if not self.is_solved(user_data["challenge_address"]):
-            print("are you sure you solved it?")
+            print("Are you sure you solved it? :(")
             return 1
 
+        print("🎉 Congratulations! Here is your flag 🚩")
         print(FLAG)
         return 0
 

@@ -12,7 +12,6 @@ from ctf_launchers.types import (
     get_player_account,
     anvil_instance,
     format_anvil_args,
-
 )
 import requests
 from eth_account.hdaccount import generate_mnemonic
@@ -42,11 +41,11 @@ class Launcher(abc.ABC):
         self._actions = [
             Action(name="launch new instance", handler=self.launch_instance),
         ] + actions
-        
+
         if not os.path.exists("userdata.json"):
             with open("userdata.json", "w") as f:
                 f.write("{}")
-        
+
         with open("userdata.json", "r") as f:
             self.user_data = json.loads(f.read())
 
@@ -92,29 +91,32 @@ class Launcher(abc.ABC):
     def launch_instance(self) -> int:
         user_data = self.get_user_data()
         if user_data.get("challenge_address", None):
-            print("you already have an instance running")
+            print("You already have an instance running")
+            print("If you forget about it, I can remind you:)")
+            print("🔗 RPC endpoints: ", f"{PUBLIC_HOST}:{PROXY_PORT}")
+            print(
+                f"🔑 Private key: {get_player_account(user_data['mnemonic']).key.hex()}"
+            )
+            print(f"🏆 Challenge address: {user_data['challenge_address']}")
             return 1
         print("creating private blockchain...")
         anvil_instances = self.get_anvil_instance()
         cmd_args = format_anvil_args(anvil_instances, port=anvil_instance["port"])
         p = subprocess.Popen(
-            ["anvil"] +
-            cmd_args,
+            ["anvil"] + cmd_args,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
         recv_until(p, b"Listening")
 
         print()
-        print(f"your private blockchain has been set up")
-        print(f"it will automatically terminate in {TIMEOUT} seconds")
+        print(f"🚀 Your private blockchain has been set up! 🚀")
         print(f"---")
-        print(f"rpc endpoints:")
-        print(f"    - {PUBLIC_HOST}:{PROXY_PORT}")
-        print(f"private key:        {get_player_account(self.mnemonic).key.hex()}")
+        print(f"🔗 RPC endpoints: {PUBLIC_HOST}:{PROXY_PORT}")
+        print(f"🔑 Private key: {get_player_account(self.mnemonic).key.hex()}")
 
-        print("waiting for instance to start...")
-        print("deploying challenge...")
+        print("⏳ Waiting for instance to start...")
+        print("📦 Deploying challenge...")
         challenge_addr = self.deploy(self.mnemonic)
 
         self.update_metadata(
@@ -122,7 +124,7 @@ class Launcher(abc.ABC):
         )
 
         self.user_data["challenge_address"] = challenge_addr
-        print(f"challenge contract: {challenge_addr}")
+        print(f"🏆 Challenge contract: {challenge_addr}")
         return 0
 
     def deploy(self, mnemonic: str) -> str:
