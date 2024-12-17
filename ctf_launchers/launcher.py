@@ -116,7 +116,7 @@ class Launcher(abc.ABC):
         print(f"🔑 Private key: {get_player_account(self.mnemonic).key.hex()}")
 
         print("⏳ Waiting for instance to start...")
-        print("📦 Deploying challenge...")
+        print("📦 Deploying challenge... Don't shut down this terminal. It may take a while.")
         challenge_addr = self.deploy(self.mnemonic)
 
         self.update_metadata(
