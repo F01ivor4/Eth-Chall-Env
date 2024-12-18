@@ -35,6 +35,7 @@ class Action:
 
 
 class Launcher(abc.ABC):
+
     def __init__(self, project_location: str, actions: List[Action] = []):
         self.project_location = project_location
 
@@ -76,9 +77,7 @@ class Launcher(abc.ABC):
             kwargs["fork_url"] = ETH_RPC_URL
         if not "mnemonic" in kwargs:
             kwargs["mnemonic"] = self.mnemonic
-        return LaunchAnvilInstanceArgs(
-            **kwargs,
-        )
+        return LaunchAnvilInstanceArgs(**kwargs, )
 
     def get_anvil_instance(self, **kwargs) -> LaunchAnvilInstanceArgs:
         return self._get_anvil_instance(**kwargs)
@@ -101,7 +100,8 @@ class Launcher(abc.ABC):
             return 1
         print("creating private blockchain...")
         anvil_instances = self.get_anvil_instance()
-        cmd_args = format_anvil_args(anvil_instances, port=anvil_instance["port"])
+        cmd_args = format_anvil_args(anvil_instances,
+                                     port=anvil_instance["port"])
         p = subprocess.Popen(
             ["anvil"] + cmd_args,
             stdout=subprocess.PIPE,
@@ -111,19 +111,18 @@ class Launcher(abc.ABC):
 
         print()
         print(f"🚀 Your private blockchain has been set up! 🚀")
-        print(f"---")
-        print(f"🔗 RPC endpoints: {PUBLIC_HOST}:{PROXY_PORT}")
-        print(f"🔑 Private key: {get_player_account(self.mnemonic).key.hex()}")
 
         print("⏳ Waiting for instance to start...")
-        print("📦 Deploying challenge... Don't shut down this terminal. It may take a while.")
+        print("📦 Deploying challenge...")
         challenge_addr = self.deploy(self.mnemonic)
 
-        self.update_metadata(
-            {"mnemonic": self.mnemonic, "challenge_address": challenge_addr}
-        )
-
+        self.update_metadata({
+            "mnemonic": self.mnemonic,
+            "challenge_address": challenge_addr
+        })
         self.user_data["challenge_address"] = challenge_addr
+        print(f"🔗 RPC endpoints: {PUBLIC_HOST}:{PROXY_PORT}")
+        print(f"🔑 Private key: {get_player_account(self.mnemonic).key.hex()}")
         print(f"🏆 Challenge contract: {challenge_addr}")
         return 0
 
